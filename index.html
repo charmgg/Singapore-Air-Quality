@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -19,36 +20,59 @@
 
 body {
     margin: 0;
-    padding: 10px;
+    padding: 7px 40px;
     font-family: Arial, Helvetica, sans-serif;
-    background: transparent;
+    background: #ffffff;
     color: #444;
 }
 
 .container {
     width: 100%;
-    max-width: 950px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
 
 /* =========================
-   MAIN AREA
+   DASHBOARD LAYOUT
    ========================= */
 
+.dashboard {
+    display: grid;
+
+    grid-template-columns: 350px 151px 151px;
+
+    column-gap: 53px;
+
+    align-items: start;
+}
+
+
+/* =========================
+   LEFT SECTION
+   ========================= */
+
+.left-section {
+    width: 350px;
+}
+
 .title {
-    text-align: center;
     font-size: 28px;
     font-weight: 700;
     color: #111;
-    margin-bottom: 5px;
+
+    margin: 0 0 6px 0;
+
+    white-space: nowrap;
 }
 
 .subtitle {
-    text-align: center;
-    color: #222;
     font-size: 14px;
-    margin-bottom: 30px;
+    color: #111;
+
+    margin: 0;
+
+    white-space: nowrap;
 }
 
 
@@ -58,52 +82,76 @@ body {
 
 .main-value {
     text-align: center;
-    margin-bottom: 30px;
+
+    margin-top: 28px;
 }
 
 .value {
-    font-size: 52px;
+    font-size: 50px;
     font-weight: bold;
+
     line-height: 1;
 }
 
 .unit {
     font-size: 14px;
+
     color: #777;
+
     margin-top: 8px;
 }
 
 .status {
     display: inline-block;
-    padding: 7px 20px;
+
+    padding: 7px 18px;
+
     border-radius: 20px;
-    color: white;
+
+    color: #ffffff;
+
     font-weight: bold;
+
     font-size: 16px;
+
     margin-top: 12px;
 }
 
 
 /* =========================
-   REGIONS
+   REGION COLUMNS
    ========================= */
 
-.regions {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 32px;
-    width: 100%;
-    margin-top: 10px;
+.region-column {
+    width: 151px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 30px;
 }
 
+
+/* =========================
+   REGION BOX
+   ========================= */
+
 .region {
-    min-width: 0;
-    padding: 12px;
+    width: 151px;
+
+    height: 47px;
+
+    padding: 0 12px;
+
     border-radius: 10px;
+
     background: #f5f5f5;
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     font-size: 16px;
@@ -111,13 +159,16 @@ body {
 
 .region-name {
     font-weight: 600;
+
     white-space: nowrap;
 }
 
 .region-value {
     font-weight: bold;
+
     font-size: 18px;
-    margin-left: 10px;
+
+    margin-left: 8px;
 }
 
 
@@ -127,30 +178,49 @@ body {
 
 .region.central {
     background: #dbe442;
+
     color: #000000;
 }
 
 
 /* =========================
-   UPDATED TIME
+   UPDATED / SOURCE
    ========================= */
 
-.updated {
-    text-align: center;
-    margin-top: 18px;
-    font-size: 12px;
-    color: #888;
+/*
+   The info is positioned so that
+   "Updated" lines up with the
+   West box on the left column.
+*/
+
+.info {
+    margin-top: 0;
+
+    transform: translateY(0);
 }
 
+.updated {
+    font-size: 12px;
 
-/* =========================
-   ERROR
-   ========================= */
+    color: #888;
 
-.error {
-    color: #c62828;
-    text-align: center;
-    font-weight: bold;
+    margin-bottom: 12px;
+
+    white-space: nowrap;
+}
+
+.source {
+    font-size: 11px;
+
+    color: #888;
+
+    white-space: nowrap;
+}
+
+.source a {
+    color: #888;
+
+    text-decoration: underline;
 }
 
 
@@ -177,7 +247,6 @@ body {
 
 .yellow-bg {
     background: #fdd835;
-    color: #000000;
 }
 
 
@@ -207,24 +276,38 @@ body {
    MOBILE
    ========================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .regions {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+    body {
+        padding: 15px 20px;
     }
 
-    .region.central {
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+
+        column-gap: 15px;
+
+        row-gap: 20px;
+    }
+
+    .left-section {
+        width: 100%;
+
         grid-column: span 2;
     }
 
-    .title {
-        font-size: 24px;
+    .main-value {
+        text-align: center;
     }
 
-    .value {
-        font-size: 48px;
+    .region-column {
+        width: 100%;
     }
+
+    .region {
+        width: 100%;
+    }
+
 }
 
 </style>
@@ -234,163 +317,286 @@ body {
 
 <body>
 
+
 <div class="container">
 
 
-    <!-- TITLE -->
+<div class="dashboard">
+
+
+<!-- =====================================================
+     LEFT SECTION
+     ===================================================== -->
+
+<div class="left-section">
+
 
     <div class="title">
         Singapore Air Quality
     </div>
 
 
-    <!-- SUBTITLE -->
-
     <div class="subtitle">
         PM2.5 Reading - Updated Every 15 Minutes
     </div>
 
 
-    <!-- MAIN VALUE -->
-
     <div class="main-value">
 
-        <div id="mainValue" class="value yellow">
+
+        <div
+            id="mainValue"
+            class="value yellow">
+
             --
+
         </div>
+
 
         <div class="unit">
+
             µg/m³
+
         </div>
 
-        <div id="status" class="status yellow-bg">
+
+        <div
+            id="status"
+            class="status yellow-bg">
+
             Loading...
-        </div>
-
-    </div>
-
-
-    <!-- REGIONAL READINGS -->
-
-    <div class="regions">
-
-
-        <!-- NORTH -->
-
-        <div class="region">
-
-            <span class="region-name">
-                North
-            </span>
-
-            <span id="north" class="region-value">
-                --
-            </span>
 
         </div>
 
 
-        <!-- EAST -->
-
-        <div class="region">
-
-            <span class="region-name">
-                East
-            </span>
-
-            <span id="east" class="region-value">
-                --
-            </span>
-
-        </div>
-
-
-        <!-- WEST -->
-
-        <div class="region">
-
-            <span class="region-name">
-                West
-            </span>
-
-            <span id="west" class="region-value">
-                --
-            </span>
-
-        </div>
-
-
-        <!-- CENTRAL -->
-
-        <div class="region central">
-
-            <span class="region-name">
-                Central (AIS)
-            </span>
-
-            <span id="central" class="region-value">
-                --
-            </span>
-
-        </div>
-
-
-        <!-- SOUTH -->
-
-        <div class="region">
-
-            <span class="region-name">
-                South
-            </span>
-
-            <span id="south" class="region-value">
-                --
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- UPDATED -->
-
-    <div id="updated" class="updated">
-        Loading latest data...
     </div>
 
 
 </div>
 
 
+
+<!-- =====================================================
+     MIDDLE COLUMN
+     ===================================================== -->
+
+<div class="region-column">
+
+
+    <!-- NORTH -->
+
+    <div class="region">
+
+        <span class="region-name">
+
+            North
+
+        </span>
+
+
+        <span
+            id="north"
+            class="region-value">
+
+            --
+
+        </span>
+
+    </div>
+
+
+
+    <!-- EAST -->
+
+    <div class="region">
+
+        <span class="region-name">
+
+            East
+
+        </span>
+
+
+        <span
+            id="east"
+            class="region-value">
+
+            --
+
+        </span>
+
+    </div>
+
+
+
+    <!-- WEST -->
+
+    <div class="region">
+
+        <span class="region-name">
+
+            West
+
+        </span>
+
+
+        <span
+            id="west"
+            class="region-value">
+
+            --
+
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     RIGHT COLUMN
+     ===================================================== -->
+
+<div class="region-column">
+
+
+    <!-- CENTRAL -->
+
+    <div class="region central">
+
+        <span class="region-name">
+
+            Central (AIS)
+
+        </span>
+
+
+        <span
+            id="central"
+            class="region-value">
+
+            --
+
+        </span>
+
+    </div>
+
+
+
+    <!-- SOUTH -->
+
+    <div class="region">
+
+        <span class="region-name">
+
+            South
+
+        </span>
+
+
+        <span
+            id="south"
+            class="region-value">
+
+            --
+
+        </span>
+
+    </div>
+
+
+
+    <!-- UPDATED / SOURCE -->
+
+    <div class="info">
+
+
+        <div
+            id="updated"
+            class="updated">
+
+            Loading latest data...
+
+        </div>
+
+
+        <div class="source">
+
+            Source:
+
+            <a
+                href="https://www.haze.gov.sg/"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                haze.gov.sg
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
 <script>
 
-/* =========================
-   API
-   ========================= */
+
+/* =====================================================
+   LOAD PM2.5 DATA
+   ===================================================== */
 
 async function loadPM25() {
+
 
     const API_URL =
         "https://api-open.data.gov.sg/v2/real-time/api/pm25";
 
+
     try {
 
-        const response = await fetch(API_URL, {
-            method: "GET",
-            cache: "no-store"
-        });
 
+        const response =
+            await fetch(API_URL, {
+
+                method: "GET",
+
+                cache: "no-store"
+
+            });
+
+
+        /* =========================
+           CHECK RESPONSE
+           ========================= */
 
         if (!response.ok) {
 
             throw new Error(
-                "HTTP Error: " + response.status
+                "HTTP Error: " +
+                response.status
             );
 
         }
 
 
-        const result = await response.json();
+        /* =========================
+           GET JSON
+           ========================= */
+
+        const result =
+            await response.json();
 
 
         const item =
@@ -401,40 +607,67 @@ async function loadPM25() {
             item.readings.pm25_one_hourly;
 
 
-        /* =========================
-           REGIONAL VALUES
-           ========================= */
 
-        document.getElementById("north").textContent =
+        /* =================================================
+           DISPLAY REGIONAL VALUES
+           ================================================= */
+
+
+        document
+            .getElementById("north")
+            .textContent =
             readings.north;
 
-        document.getElementById("east").textContent =
+
+        document
+            .getElementById("east")
+            .textContent =
             readings.east;
 
-        document.getElementById("west").textContent =
+
+        document
+            .getElementById("west")
+            .textContent =
             readings.west;
 
-        document.getElementById("central").textContent =
+
+        document
+            .getElementById("central")
+            .textContent =
             readings.central;
 
-        document.getElementById("south").textContent =
+
+        document
+            .getElementById("south")
+            .textContent =
             readings.south;
 
 
-        /* =========================
-           FIND HIGHEST VALUE
-           ========================= */
+
+        /* =================================================
+           FIND HIGHEST READING
+           ================================================= */
+
 
         const values = [
 
+
             readings.north,
+
             readings.east,
+
             readings.west,
+
             readings.central,
+
             readings.south
 
+
         ].filter(
-            value => typeof value === "number"
+
+            value =>
+                typeof value === "number"
+
         );
 
 
@@ -451,12 +684,16 @@ async function loadPM25() {
             Math.max(...values);
 
 
-        /* =========================
+
+        /* =================================================
            MAIN VALUE
-           ========================= */
+           ================================================= */
+
 
         const mainValue =
-            document.getElementById("mainValue");
+            document.getElementById(
+                "mainValue"
+            );
 
 
         mainValue.textContent =
@@ -464,15 +701,20 @@ async function loadPM25() {
 
 
         mainValue.className =
-            "value " + getColour(highest);
+            "value " +
+            getColour(highest);
 
 
-        /* =========================
+
+        /* =================================================
            STATUS
-           ========================= */
+           ================================================= */
+
 
         const status =
-            document.getElementById("status");
+            document.getElementById(
+                "status"
+            );
 
 
         status.textContent =
@@ -480,31 +722,62 @@ async function loadPM25() {
 
 
         status.className =
-            "status " + getBackground(highest);
+            "status " +
+            getBackground(highest);
 
 
-        /* =========================
+
+        /* =================================================
            UPDATED TIME
-           ========================= */
+           ================================================= */
+
 
         const date =
-            new Date(item.updatedTimestamp);
+            new Date(
+                item.updatedTimestamp
+            );
 
 
-        document.getElementById("updated").textContent =
+        document
+            .getElementById("updated")
+            .textContent =
+
             "Updated: " +
-            date.toLocaleString("en-SG", {
 
-                timeZone: "Asia/Singapore",
+            date.toLocaleString(
+                "en-SG",
+                {
 
-                dateStyle: "medium",
+                    timeZone:
+                        "Asia/Singapore",
 
-                timeStyle: "short"
+                    day:
+                        "numeric",
 
-            });
+                    month:
+                        "short",
+
+                    year:
+                        "numeric",
+
+                    hour:
+                        "numeric",
+
+                    minute:
+                        "2-digit",
+
+                    hour12:
+                        true
+
+                }
+            );
 
 
-    } catch (error) {
+    }
+
+
+    catch (error) {
+
 
         console.error(
             "Unable to load PM2.5:",
@@ -512,25 +785,37 @@ async function loadPM25() {
         );
 
 
-        document.getElementById("mainValue")
-            .textContent = "--";
+        /* =========================
+           ERROR STATE
+           ========================= */
 
 
-        document.getElementById("mainValue")
-            .className = "value red";
+        document
+            .getElementById("mainValue")
+            .textContent =
+            "--";
 
 
-        document.getElementById("status")
+        document
+            .getElementById("mainValue")
+            .className =
+            "value red";
+
+
+        document
+            .getElementById("status")
             .textContent =
             "Unable to load data";
 
 
-        document.getElementById("status")
+        document
+            .getElementById("status")
             .className =
             "status red-bg";
 
 
-        document.getElementById("updated")
+        document
+            .getElementById("updated")
             .textContent =
             "Please try again later.";
 
@@ -539,96 +824,140 @@ async function loadPM25() {
 }
 
 
-/* =========================
+
+/* =====================================================
    STATUS RANGES
-   =========================
+   =====================================================
 
-   0–55     = Normal
-   56–150   = Elevated
-   151–250  = High
-   251+     = Very High
+   0–55       Normal
+   56–150     Elevated
+   151–250    High
+   251+       Very High
 
-   ========================= */
+   ===================================================== */
+
 
 function getStatus(value) {
 
+
     if (value <= 55) {
+
         return "Normal";
+
     }
+
 
     if (value <= 150) {
+
         return "Elevated";
+
     }
+
 
     if (value <= 250) {
+
         return "High";
+
     }
 
+
     return "Very High";
+
 }
 
 
-/* =========================
-   TEXT COLOUR
-   ========================= */
+
+/* =====================================================
+   MAIN VALUE TEXT COLOUR
+   ===================================================== */
 
 function getColour(value) {
 
+
     if (value <= 55) {
+
         return "green";
+
     }
+
 
     if (value <= 150) {
+
         return "yellow";
+
     }
+
 
     if (value <= 250) {
+
         return "orange";
+
     }
 
+
     return "red";
+
 }
 
 
-/* =========================
-   STATUS BACKGROUND
-   ========================= */
+
+/* =====================================================
+   STATUS BACKGROUND COLOUR
+   ===================================================== */
 
 function getBackground(value) {
 
+
     if (value <= 55) {
+
         return "green-bg";
+
     }
+
 
     if (value <= 150) {
+
         return "yellow-bg";
+
     }
+
 
     if (value <= 250) {
+
         return "orange-bg";
+
     }
 
+
     return "red-bg";
+
 }
 
 
-/* =========================
+
+/* =====================================================
    INITIAL LOAD
-   ========================= */
+   ===================================================== */
 
 loadPM25();
 
 
-/* =========================
+
+/* =====================================================
    REFRESH EVERY 15 MINUTES
-   ========================= */
+   ===================================================== */
 
 setInterval(
+
     loadPM25,
+
     15 * 60 * 1000
+
 );
 
 </script>
 
+
 </body>
+
 </html>
