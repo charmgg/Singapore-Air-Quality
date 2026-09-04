@@ -7,7 +7,6 @@
 <title>Singapore Air Quality</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -68,7 +67,7 @@ body {
     display: inline-block;
     padding: 7px 18px;
     border-radius: 20px;
-    color: #ffffff;
+    color: white;
     font-weight: bold;
     margin-top: 12px;
 }
@@ -98,13 +97,14 @@ body {
     font-size: 18px;
 }
 
-/* Central AIS */
+/* CENTRAL AIS */
+
 .pm25-central {
     background: #dbe442;
     color: #000000;
 }
 
-/* Text colours */
+/* STATUS COLOURS */
 
 .pm25-green {
     color: #43a047;
@@ -121,8 +121,6 @@ body {
 .pm25-red {
     color: #c62828;
 }
-
-/* Status background colours */
 
 .pm25-green-bg {
     background: #43a047;
@@ -147,6 +145,13 @@ body {
     color: #888;
 }
 
+.pm25-error {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #c62828;
+}
+
 .pm25-source {
     text-align: center;
     margin-top: 10px;
@@ -158,17 +163,6 @@ body {
     color: #888;
     text-decoration: underline;
 }
-
-/* Error message */
-
-.pm25-error {
-    color: #c62828;
-    text-align: center;
-    font-size: 13px;
-    margin-top: 10px;
-}
-
-/* Mobile */
 
 @media (max-width: 600px) {
 
@@ -187,9 +181,7 @@ body {
     .pm25-value {
         font-size: 50px;
     }
-
 }
-
 </style>
 </head>
 
@@ -260,10 +252,9 @@ body {
 
         <div class="pm25-source">
             Source:
-            <a
-                href="https://www.haze.gov.sg/"
-                target="_blank"
-                rel="noopener noreferrer">
+            <a href="https://www.haze.gov.sg/"
+               target="_blank"
+               rel="noopener noreferrer">
                 haze.gov.sg
             </a>
         </div>
@@ -280,10 +271,6 @@ body {
     var API_URL =
         "https://api-open.data.gov.sg/v2/real-time/api/pm25";
 
-
-    /*
-     * Determine PM2.5 status
-     */
 
     function getStatus(value) {
 
@@ -303,10 +290,6 @@ body {
     }
 
 
-    /*
-     * Determine text colour
-     */
-
     function getTextClass(value) {
 
         if (value <= 55) {
@@ -324,10 +307,6 @@ body {
         return "pm25-red";
     }
 
-
-    /*
-     * Determine status background
-     */
 
     function getBackgroundClass(value) {
 
@@ -347,10 +326,6 @@ body {
     }
 
 
-    /*
-     * Load PM2.5 data
-     */
-
     function loadPM25() {
 
         var errorBox =
@@ -359,219 +334,168 @@ body {
         errorBox.textContent = "";
 
 
-        fetch(API_URL, {
-            method: "GET",
-            cache: "no-store"
-        })
+        fetch(API_URL)
 
-        .then(function (response) {
+            .then(function(response) {
 
-            if (!response.ok) {
+                if (!response.ok) {
+                    throw new Error(
+                        "HTTP " + response.status
+                    );
+                }
 
-                throw new Error(
-                    "HTTP Error: " + response.status
-                );
+                return response.json();
 
-            }
+            })
 
-            return response.json();
+            .then(function(result) {
 
-        })
-
-        .then(function (result) {
-
-            console.log("PM2.5 API response:", result);
+                console.log("API RESULT:", result);
 
 
-            /*
-             * Get latest item
-             */
-
-            var item =
-                result.data.items[0];
+                var item =
+                    result.data.items[0];
 
 
-            /*
-             * Get regional readings
-             */
-
-            var readings =
-                item.readings.pm25_one_hourly;
+                var readings =
+                    item.readings.pm25_one_hourly;
 
 
-            /*
-             * Display regional values
-             */
+                /* REGIONS */
 
-            document.getElementById("pm25-north").textContent =
-                readings.north;
+                document.getElementById("pm25-north")
+                    .textContent = readings.north;
 
-            document.getElementById("pm25-central").textContent =
-                readings.central;
+                document.getElementById("pm25-central")
+                    .textContent = readings.central;
 
-            document.getElementById("pm25-east").textContent =
-                readings.east;
+                document.getElementById("pm25-east")
+                    .textContent = readings.east;
 
-            document.getElementById("pm25-south").textContent =
-                readings.south;
+                document.getElementById("pm25-south")
+                    .textContent = readings.south;
 
-            document.getElementById("pm25-west").textContent =
-                readings.west;
+                document.getElementById("pm25-west")
+                    .textContent = readings.west;
 
 
-            /*
-             * Convert readings to numbers
-             */
+                /* NUMBERS */
 
-            var values = [
+                var values = [
+                    Number(readings.north),
+                    Number(readings.central),
+                    Number(readings.east),
+                    Number(readings.south),
+                    Number(readings.west)
+                ].filter(function(value) {
 
-                Number(readings.north),
-                Number(readings.central),
-                Number(readings.east),
-                Number(readings.south),
-                Number(readings.west)
+                    return !isNaN(value);
 
-            ].filter(function (value) {
-
-                return !isNaN(value);
-
-            });
+                });
 
 
-            /*
-             * Check if readings exist
-             */
-
-            if (values.length === 0) {
-
-                throw new Error(
-                    "No PM2.5 readings available."
-                );
-
-            }
+                if (values.length === 0) {
+                    throw new Error(
+                        "No readings available"
+                    );
+                }
 
 
-            /*
-             * Find highest reading
-             */
+                /* HIGHEST */
 
-            var highest =
-                Math.max.apply(null, values);
+                var highest =
+                    Math.max.apply(null, values);
 
 
-            /*
-             * Main value
-             */
+                /* MAIN VALUE */
 
-            var mainValue =
+                var main =
+                    document.getElementById(
+                        "pm25-main-value"
+                    );
+
+                main.textContent = highest;
+
+                main.className =
+                    "pm25-value " +
+                    getTextClass(highest);
+
+
+                /* STATUS */
+
+                var status =
+                    document.getElementById(
+                        "pm25-status"
+                    );
+
+                status.textContent =
+                    getStatus(highest);
+
+                status.className =
+                    "pm25-status " +
+                    getBackgroundClass(highest);
+
+
+                /* UPDATED */
+
+                var date =
+                    new Date(
+                        item.updatedTimestamp
+                    );
+
                 document.getElementById(
-                    "pm25-main-value"
+                    "pm25-updated"
+                ).textContent =
+                    "Updated: " +
+                    date.toLocaleString(
+                        "en-SG",
+                        {
+                            timeZone: "Asia/Singapore",
+                            dateStyle: "medium",
+                            timeStyle: "short"
+                        }
+                    );
+
+            })
+
+            .catch(function(error) {
+
+                console.error(
+                    "PM2.5 ERROR:",
+                    error
                 );
 
 
-            mainValue.textContent =
-                highest;
-
-
-            mainValue.className =
-                "pm25-value " +
-                getTextClass(highest);
-
-
-            /*
-             * Status
-             */
-
-            var status =
                 document.getElementById(
                     "pm25-status"
-                );
+                ).textContent =
+                    "Unable to load data";
 
 
-            status.textContent =
-                getStatus(highest);
+                document.getElementById(
+                    "pm25-status"
+                ).className =
+                    "pm25-status pm25-red-bg";
 
 
-            status.className =
-                "pm25-status " +
-                getBackgroundClass(highest);
+                document.getElementById(
+                    "pm25-updated"
+                ).textContent =
+                    "Please try again later.";
 
 
-            /*
-             * Updated timestamp
-             */
+                document.getElementById(
+                    "pm25-error"
+                ).textContent =
+                    "Error: " + error.message;
 
-            var date =
-                new Date(item.updatedTimestamp);
-
-
-            document.getElementById(
-                "pm25-updated"
-            ).textContent =
-                "Updated: " +
-                date.toLocaleString(
-                    "en-SG",
-                    {
-                        timeZone: "Asia/Singapore",
-                        dateStyle: "medium",
-                        timeStyle: "short"
-                    }
-                );
-
-
-        })
-
-        .catch(function (error) {
-
-            console.error(
-                "Unable to load PM2.5:",
-                error
-            );
-
-
-            document.getElementById(
-                "pm25-main-value"
-            ).textContent = "--";
-
-
-            document.getElementById(
-                "pm25-status"
-            ).textContent =
-                "Unable to load data";
-
-
-            document.getElementById(
-                "pm25-status"
-            ).className =
-                "pm25-status pm25-red-bg";
-
-
-            document.getElementById(
-                "pm25-updated"
-            ).textContent =
-                "Please try again later.";
-
-
-            document.getElementById(
-                "pm25-error"
-            ).textContent =
-                "API error: " + error.message;
-
-        });
+            });
 
     }
 
 
-    /*
-     * Load immediately
-     */
-
     loadPM25();
 
-
-    /*
-     * Refresh every 15 minutes
-     */
 
     setInterval(
         loadPM25,
