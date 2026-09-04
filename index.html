@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Singapore Air Quality</title>
+<title>Singapore PM2.5</title>
 
 <style>
 
@@ -18,33 +18,48 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
-    padding: 7px 40px;
-    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    width: 100%;
     background: #ffffff;
-    color: #444;
 }
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #444;
 }
 
 
 /* =========================
-   DASHBOARD LAYOUT
+   CONTAINER
+   ========================= */
+
+.container {
+    width: 100%;
+    margin: 0;
+    padding: 7px 0;
+}
+
+
+/* =========================
+   MAIN DASHBOARD
    ========================= */
 
 .dashboard {
     display: grid;
 
-    grid-template-columns: 350px 151px 151px;
+    grid-template-columns: 360px 180px 180px;
 
     column-gap: 53px;
 
     align-items: start;
+
+    width: fit-content;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -53,34 +68,52 @@ body {
    ========================= */
 
 .left-section {
-    width: 350px;
+    width: 360px;
 }
 
+
+/* =========================
+   TITLE
+   ========================= */
+
 .title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
+
     color: #111;
 
     margin: 0 0 6px 0;
 
-    white-space: nowrap;
-}
-
-.subtitle {
-    font-size: 14px;
-    color: #111;
-
-    margin: 0;
+    text-align: center;
 
     white-space: nowrap;
 }
 
 
 /* =========================
-   MAIN PM2.5 VALUE
+   SUBTITLE
+   ========================= */
+
+.subtitle {
+    font-size: 14px;
+
+    color: #111;
+
+    margin: 0;
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   MAIN VALUE
    ========================= */
 
 .main-value {
+    width: 100%;
+
     text-align: center;
 
     margin-top: 28px;
@@ -88,6 +121,7 @@ body {
 
 .value {
     font-size: 50px;
+
     font-weight: bold;
 
     line-height: 1;
@@ -123,7 +157,7 @@ body {
    ========================= */
 
 .region-column {
-    width: 151px;
+    width: 180px;
 
     display: flex;
 
@@ -134,11 +168,11 @@ body {
 
 
 /* =========================
-   REGION BOX
+   REGION BOXES
    ========================= */
 
 .region {
-    width: 151px;
+    width: 180px;
 
     height: 47px;
 
@@ -157,11 +191,21 @@ body {
     font-size: 16px;
 }
 
+
+/* =========================
+   REGION NAME
+   ========================= */
+
 .region-name {
     font-weight: 600;
 
     white-space: nowrap;
 }
+
+
+/* =========================
+   REGION VALUE
+   ========================= */
 
 .region-value {
     font-weight: bold;
@@ -177,6 +221,10 @@ body {
    ========================= */
 
 .region.central {
+    width: 180px;
+
+    height: 47px;
+
     background: #dbe442;
 
     color: #000000;
@@ -187,16 +235,10 @@ body {
    UPDATED / SOURCE
    ========================= */
 
-/*
-   The info is positioned so that
-   "Updated" lines up with the
-   West box on the left column.
-*/
-
 .info {
-    margin-top: 0;
+    width: 180px;
 
-    transform: translateY(0);
+    margin-top: 0;
 }
 
 .updated {
@@ -227,6 +269,7 @@ body {
 /* =========================
    PM2.5 COLOURS
    ========================= */
+
 
 /* Normal: 0–55 */
 
@@ -278,11 +321,14 @@ body {
 
 @media (max-width: 800px) {
 
-    body {
-        padding: 15px 20px;
+    .container {
+        padding: 10px 15px;
     }
 
     .dashboard {
+
+        width: 100%;
+
         grid-template-columns: 1fr 1fr;
 
         column-gap: 15px;
@@ -291,21 +337,55 @@ body {
     }
 
     .left-section {
+
         width: 100%;
 
         grid-column: span 2;
     }
 
+    .title,
+    .subtitle {
+
+        text-align: center;
+    }
+
     .main-value {
+
         text-align: center;
     }
 
     .region-column {
+
         width: 100%;
     }
 
     .region {
+
         width: 100%;
+    }
+
+    .region.central {
+
+        width: 100%;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL SCREEN
+   ========================= */
+
+@media (max-width: 500px) {
+
+    .dashboard {
+
+        grid-template-columns: 1fr;
+    }
+
+    .left-section {
+
+        grid-column: span 1;
     }
 
 }
@@ -332,12 +412,16 @@ body {
 
 
     <div class="title">
+
         Singapore Air Quality
+
     </div>
 
 
     <div class="subtitle">
+
         PM2.5 Reading - Updated Every 15 Minutes
+
     </div>
 
 
@@ -462,7 +546,7 @@ body {
 <div class="region-column">
 
 
-    <!-- CENTRAL -->
+    <!-- CENTRAL AIS -->
 
     <div class="region central">
 
@@ -508,7 +592,7 @@ body {
 
 
 
-    <!-- UPDATED / SOURCE -->
+    <!-- UPDATED -->
 
     <div class="info">
 
@@ -552,7 +636,6 @@ body {
 
 <script>
 
-
 /* =====================================================
    LOAD PM2.5 DATA
    ===================================================== */
@@ -592,7 +675,7 @@ async function loadPM25() {
 
 
         /* =========================
-           GET JSON
+           GET DATA
            ========================= */
 
         const result =
@@ -608,10 +691,9 @@ async function loadPM25() {
 
 
 
-        /* =================================================
+        /* =========================
            DISPLAY REGIONAL VALUES
-           ================================================= */
-
+           ========================= */
 
         document
             .getElementById("north")
@@ -644,24 +726,17 @@ async function loadPM25() {
 
 
 
-        /* =================================================
+        /* =========================
            FIND HIGHEST READING
-           ================================================= */
-
+           ========================= */
 
         const values = [
 
-
             readings.north,
-
             readings.east,
-
             readings.west,
-
             readings.central,
-
             readings.south
-
 
         ].filter(
 
@@ -685,10 +760,9 @@ async function loadPM25() {
 
 
 
-        /* =================================================
+        /* =========================
            MAIN VALUE
-           ================================================= */
-
+           ========================= */
 
         const mainValue =
             document.getElementById(
@@ -706,10 +780,9 @@ async function loadPM25() {
 
 
 
-        /* =================================================
+        /* =========================
            STATUS
-           ================================================= */
-
+           ========================= */
 
         const status =
             document.getElementById(
@@ -727,10 +800,9 @@ async function loadPM25() {
 
 
 
-        /* =================================================
+        /* =========================
            UPDATED TIME
-           ================================================= */
-
+           ========================= */
 
         const date =
             new Date(
@@ -785,11 +857,6 @@ async function loadPM25() {
         );
 
 
-        /* =========================
-           ERROR STATE
-           ========================= */
-
-
         document
             .getElementById("mainValue")
             .textContent =
@@ -824,7 +891,6 @@ async function loadPM25() {
 }
 
 
-
 /* =====================================================
    STATUS RANGES
    =====================================================
@@ -835,7 +901,6 @@ async function loadPM25() {
    251+       Very High
 
    ===================================================== */
-
 
 function getStatus(value) {
 
@@ -866,9 +931,8 @@ function getStatus(value) {
 }
 
 
-
 /* =====================================================
-   MAIN VALUE TEXT COLOUR
+   TEXT COLOUR
    ===================================================== */
 
 function getColour(value) {
@@ -898,7 +962,6 @@ function getColour(value) {
     return "red";
 
 }
-
 
 
 /* =====================================================
@@ -934,13 +997,11 @@ function getBackground(value) {
 }
 
 
-
 /* =====================================================
    INITIAL LOAD
    ===================================================== */
 
 loadPM25();
-
 
 
 /* =====================================================
