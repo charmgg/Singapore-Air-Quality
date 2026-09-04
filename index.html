@@ -6,13 +6,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Singapore PM2.5</title>
+<title>Singapore Air Quality</title>
 
 <style>
 
-/* =========================
-   GENERAL
-   ========================= */
+/* =========================================
+   RESET
+   ========================================= */
 
 * {
     box-sizing: border-box;
@@ -23,6 +23,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
+    min-height: 100%;
     background: #ffffff;
 }
 
@@ -32,360 +33,703 @@ body {
 }
 
 
-/* =========================
-   CONTAINER
-   ========================= */
+/* =========================================
+   MAIN CARD
+   ========================================= */
 
-.container {
+.air-quality-card {
+
     width: 100%;
-    margin: 0;
-    padding: 7px 0;
+
+    min-height: 440px;
+
+    background: #ffffff;
+
+    border: 2px solid #555;
+
+    border-radius: 18px;
+
+    padding: 18px 34px 24px 34px;
+
+    overflow: hidden;
+
 }
 
 
-/* =========================
+/* =========================================
    MAIN DASHBOARD
-   ========================= */
+   ========================================= */
 
 .dashboard {
-    display: grid;
 
-    grid-template-columns: 360px 180px 180px;
-
-    column-gap: 53px;
-
-    align-items: start;
-
-    width: fit-content;
-
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-/* =========================
-   LEFT SECTION
-   ========================= */
-
-.left-section {
-    width: 360px;
-}
-
-
-/* =========================
-   TITLE
-   ========================= */
-
-.title {
-    font-size: 26px;
-    font-weight: 700;
-
-    color: #111;
-
-    margin: 0 0 6px 0;
-
-    text-align: center;
-
-    white-space: nowrap;
-}
-
-
-/* =========================
-   SUBTITLE
-   ========================= */
-
-.subtitle {
-    font-size: 14px;
-
-    color: #111;
-
-    margin: 0;
-
-    text-align: center;
-
-    white-space: nowrap;
-}
-
-
-/* =========================
-   MAIN VALUE
-   ========================= */
-
-.main-value {
     width: 100%;
 
-    text-align: center;
+    height: 100%;
 
-    margin-top: 28px;
-}
+    display: grid;
 
-.value {
-    font-size: 50px;
+    grid-template-columns:
+        900px
+        1fr;
 
-    font-weight: bold;
+    column-gap: 40px;
 
-    line-height: 1;
-}
+    align-items: center;
 
-.unit {
-    font-size: 14px;
-
-    color: #777;
-
-    margin-top: 8px;
-}
-
-.status {
-    display: inline-block;
-
-    padding: 7px 18px;
-
-    border-radius: 20px;
-
-    color: #ffffff;
-
-    font-weight: bold;
-
-    font-size: 16px;
-
-    margin-top: 12px;
 }
 
 
-/* =========================
-   REGION COLUMNS
-   ========================= */
+/* =========================================
+   LEFT SIDE
+   ========================================= */
 
-.region-column {
-    width: 180px;
+.left-section {
+
+    width: 100%;
+
+    height: 100%;
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 30px;
 }
 
 
-/* =========================
-   REGION BOXES
-   ========================= */
+/* =========================================
+   TITLE
+   ========================================= */
+
+.title {
+
+    font-size: 48px;
+
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    color: #111;
+
+    margin: 0;
+
+}
+
+.subtitle {
+
+    font-size: 25px;
+
+    color: #111;
+
+    margin-top: 12px;
+
+}
+
+
+/* =========================================
+   REGIONS
+   ========================================= */
+
+.regions {
+
+    margin-top: 78px;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    grid-template-rows:
+        80px
+        80px;
+
+    column-gap: 55px;
+
+    row-gap: 30px;
+
+}
+
+
+/* =========================================
+   REGION BOX
+   ========================================= */
 
 .region {
-    width: 180px;
 
-    height: 47px;
+    width: 100%;
 
-    padding: 0 12px;
+    height: 80px;
 
-    border-radius: 10px;
+    padding: 0 20px;
+
+    border-radius: 14px;
 
     background: #f5f5f5;
 
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
 
-    font-size: 16px;
+    justify-content: space-between;
+
+    font-size: 25px;
+
 }
 
 
-/* =========================
+/* =========================================
    REGION NAME
-   ========================= */
+   ========================================= */
 
 .region-name {
+
     font-weight: 600;
 
     white-space: nowrap;
+
 }
 
 
-/* =========================
+/* =========================================
    REGION VALUE
-   ========================= */
+   ========================================= */
 
 .region-value {
-    font-weight: bold;
 
-    font-size: 18px;
+    font-size: 27px;
 
-    margin-left: 8px;
+    font-weight: 700;
+
+    margin-left: 15px;
+
 }
 
 
-/* =========================
-   CENTRAL AIS
-   ========================= */
+/* =========================================
+   REGION POSITIONS
+   ========================================= */
 
-.region.central {
-    width: 180px;
+/*
+    TOP:
 
-    height: 47px;
+    West | North | East
 
-    background: #dbe442;
+    BOTTOM:
+
+    Central (AIS) | South | Information
+*/
+
+
+.west {
+
+    grid-column: 1;
+    grid-row: 1;
+
+}
+
+
+.north {
+
+    grid-column: 2;
+    grid-row: 1;
+
+}
+
+
+.east {
+
+    grid-column: 3;
+    grid-row: 1;
+
+}
+
+
+.central {
+
+    grid-column: 1;
+    grid-row: 2;
+
+    background: #dbe842;
 
     color: #000000;
+
 }
 
 
-/* =========================
-   UPDATED / SOURCE
-   ========================= */
+.south {
+
+    grid-column: 2;
+    grid-row: 2;
+
+}
+
+
+/* =========================================
+   INFORMATION
+   ========================================= */
 
 .info {
-    width: 180px;
 
-    margin-top: 0;
+    grid-column: 3;
+
+    grid-row: 2;
+
+    align-self: center;
+
+    padding-left: 8px;
+
 }
+
 
 .updated {
-    font-size: 12px;
+
+    font-size: 17px;
 
     color: #888;
 
-    margin-bottom: 12px;
+    margin-bottom: 18px;
 
     white-space: nowrap;
+
 }
+
 
 .source {
-    font-size: 11px;
+
+    font-size: 16px;
 
     color: #888;
 
     white-space: nowrap;
+
 }
+
 
 .source a {
-    color: #888;
+
+    color: #777;
 
     text-decoration: underline;
+
 }
 
 
-/* =========================
+/* =========================================
+   RIGHT SIDE
+   ========================================= */
+
+.right-section {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 65px;
+
+}
+
+
+/* =========================================
+   BIG VALUE
+   ========================================= */
+
+.value-container {
+
+    text-align: center;
+
+    min-width: 260px;
+
+}
+
+
+.value {
+
+    font-size: 150px;
+
+    font-weight: 700;
+
+    line-height: 0.9;
+
+}
+
+
+.unit {
+
+    font-size: 27px;
+
+    color: #777;
+
+    margin-top: 28px;
+
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.status {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 310px;
+
+    height: 100px;
+
+    padding: 0 45px;
+
+    border-radius: 55px;
+
+    color: #ffffff;
+
+    font-size: 38px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+/* =========================================
    PM2.5 COLOURS
-   ========================= */
+   ========================================= */
 
 
-/* Normal: 0–55 */
+/* NORMAL 0-55 */
 
 .green {
+
     color: #43a047;
+
 }
 
 .green-bg {
+
     background: #43a047;
+
 }
 
 
-/* Elevated: 56–150 */
+/* ELEVATED 56-150 */
 
 .yellow {
+
     color: #fdd835;
+
 }
 
 .yellow-bg {
+
     background: #fdd835;
+
 }
 
 
-/* High: 151–250 */
+/* HIGH 151-250 */
 
 .orange {
+
     color: #ef6c00;
+
 }
 
 .orange-bg {
+
     background: #ef6c00;
+
 }
 
 
-/* Very High: 251+ */
+/* VERY HIGH 251+ */
 
 .red {
+
     color: #c62828;
+
 }
 
 .red-bg {
+
     background: #c62828;
+
 }
 
 
-/* =========================
-   MOBILE
-   ========================= */
+/* =========================================
+   TABLET
+   ========================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 1300px) {
 
-    .container {
-        padding: 10px 15px;
+    .air-quality-card {
+
+        min-height: 350px;
+
+        padding: 20px;
+
     }
+
 
     .dashboard {
 
-        width: 100%;
+        grid-template-columns:
+            62%
+            38%;
 
-        grid-template-columns: 1fr 1fr;
+        column-gap: 20px;
 
-        column-gap: 15px;
-
-        row-gap: 20px;
     }
 
-    .left-section {
 
-        width: 100%;
+    .title {
 
-        grid-column: span 2;
+        font-size: 34px;
+
     }
 
-    .title,
+
     .subtitle {
 
-        text-align: center;
+        font-size: 17px;
+
     }
 
-    .main-value {
 
-        text-align: center;
+    .regions {
+
+        margin-top: 55px;
+
+        column-gap: 20px;
+
+        row-gap: 20px;
+
+        grid-template-rows:
+            62px
+            62px;
+
     }
 
-    .region-column {
-
-        width: 100%;
-    }
 
     .region {
 
-        width: 100%;
+        height: 62px;
+
+        font-size: 17px;
+
+        padding: 0 15px;
+
     }
 
-    .region.central {
 
-        width: 100%;
+    .region-value {
+
+        font-size: 19px;
+
+    }
+
+
+    .updated {
+
+        font-size: 12px;
+
+    }
+
+
+    .source {
+
+        font-size: 11px;
+
+    }
+
+
+    .right-section {
+
+        gap: 25px;
+
+    }
+
+
+    .value-container {
+
+        min-width: 130px;
+
+    }
+
+
+    .value {
+
+        font-size: 80px;
+
+    }
+
+
+    .unit {
+
+        font-size: 16px;
+
+        margin-top: 12px;
+
+    }
+
+
+    .status {
+
+        min-width: 150px;
+
+        height: 55px;
+
+        padding: 0 25px;
+
+        font-size: 20px;
+
     }
 
 }
 
 
-/* =========================
-   VERY SMALL SCREEN
-   ========================= */
+/* =========================================
+   MOBILE
+   ========================================= */
 
-@media (max-width: 500px) {
+@media (max-width: 800px) {
+
+    .air-quality-card {
+
+        min-height: auto;
+
+        border-radius: 12px;
+
+        padding: 20px;
+
+    }
+
 
     .dashboard {
 
-        grid-template-columns: 1fr;
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 30px;
+
     }
+
 
     .left-section {
 
-        grid-column: span 1;
+        width: 100%;
+
+    }
+
+
+    .title {
+
+        font-size: 30px;
+
+        text-align: center;
+
+    }
+
+
+    .subtitle {
+
+        font-size: 15px;
+
+        text-align: center;
+
+    }
+
+
+    .regions {
+
+        margin-top: 30px;
+
+        grid-template-columns:
+            1fr
+            1fr;
+
+        grid-template-rows: auto;
+
+        gap: 10px;
+
+    }
+
+
+    .west,
+    .north,
+    .east,
+    .central,
+    .south,
+    .info {
+
+        grid-column: auto;
+
+        grid-row: auto;
+
+    }
+
+
+    .region {
+
+        height: 55px;
+
+        font-size: 15px;
+
+    }
+
+
+    .region-value {
+
+        font-size: 17px;
+
+    }
+
+
+    .info {
+
+        padding-left: 5px;
+
+        padding-top: 5px;
+
+    }
+
+
+    .right-section {
+
+        width: 100%;
+
+        gap: 20px;
+
+    }
+
+
+    .value {
+
+        font-size: 70px;
+
+    }
+
+
+    .status {
+
+        min-width: 140px;
+
+        height: 55px;
+
+        font-size: 20px;
+
     }
 
 }
@@ -398,18 +742,20 @@ body {
 <body>
 
 
-<div class="container">
+<div class="air-quality-card">
 
 
 <div class="dashboard">
 
 
-<!-- =====================================================
+<!-- =====================================
      LEFT SECTION
-     ===================================================== -->
+     ===================================== -->
 
 <div class="left-section">
 
+
+    <!-- TITLE -->
 
     <div class="title">
 
@@ -418,6 +764,8 @@ body {
     </div>
 
 
+    <!-- SUBTITLE -->
+
     <div class="subtitle">
 
         PM2.5 Reading - Updated Every 15 Minutes
@@ -425,7 +773,162 @@ body {
     </div>
 
 
-    <div class="main-value">
+
+    <!-- =================================
+         REGIONS
+         ================================= -->
+
+    <div class="regions">
+
+
+        <!-- WEST -->
+
+        <div class="region west">
+
+            <span class="region-name">
+                West
+            </span>
+
+            <span
+                id="west"
+                class="region-value">
+
+                --
+
+            </span>
+
+        </div>
+
+
+
+        <!-- NORTH -->
+
+        <div class="region north">
+
+            <span class="region-name">
+                North
+            </span>
+
+            <span
+                id="north"
+                class="region-value">
+
+                --
+
+            </span>
+
+        </div>
+
+
+
+        <!-- EAST -->
+
+        <div class="region east">
+
+            <span class="region-name">
+                East
+            </span>
+
+            <span
+                id="east"
+                class="region-value">
+
+                --
+
+            </span>
+
+        </div>
+
+
+
+        <!-- CENTRAL AIS -->
+
+        <div class="region central">
+
+            <span class="region-name">
+                Central (AIS)
+            </span>
+
+            <span
+                id="central"
+                class="region-value">
+
+                --
+
+            </span>
+
+        </div>
+
+
+
+        <!-- SOUTH -->
+
+        <div class="region south">
+
+            <span class="region-name">
+                South
+            </span>
+
+            <span
+                id="south"
+                class="region-value">
+
+                --
+
+            </span>
+
+        </div>
+
+
+
+        <!-- INFORMATION -->
+
+        <div class="info">
+
+            <div
+                id="updated"
+                class="updated">
+
+                Loading latest data...
+
+            </div>
+
+
+            <div class="source">
+
+                Source:
+
+                <a
+                    href="https://www.haze.gov.sg/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    haze.gov.sg
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================
+     RIGHT SECTION
+     ===================================== -->
+
+<div class="right-section">
+
+
+    <!-- BIG VALUE -->
+
+    <div class="value-container">
 
 
         <div
@@ -444,183 +947,17 @@ body {
         </div>
 
 
-        <div
-            id="status"
-            class="status yellow-bg">
-
-            Loading...
-
-        </div>
-
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     MIDDLE COLUMN
-     ===================================================== -->
-
-<div class="region-column">
-
-
-    <!-- NORTH -->
-
-    <div class="region">
-
-        <span class="region-name">
-
-            North
-
-        </span>
-
-
-        <span
-            id="north"
-            class="region-value">
-
-            --
-
-        </span>
-
     </div>
 
 
 
-    <!-- EAST -->
+    <!-- STATUS -->
 
-    <div class="region">
+    <div
+        id="status"
+        class="status yellow-bg">
 
-        <span class="region-name">
-
-            East
-
-        </span>
-
-
-        <span
-            id="east"
-            class="region-value">
-
-            --
-
-        </span>
-
-    </div>
-
-
-
-    <!-- WEST -->
-
-    <div class="region">
-
-        <span class="region-name">
-
-            West
-
-        </span>
-
-
-        <span
-            id="west"
-            class="region-value">
-
-            --
-
-        </span>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     RIGHT COLUMN
-     ===================================================== -->
-
-<div class="region-column">
-
-
-    <!-- CENTRAL AIS -->
-
-    <div class="region central">
-
-        <span class="region-name">
-
-            Central (AIS)
-
-        </span>
-
-
-        <span
-            id="central"
-            class="region-value">
-
-            --
-
-        </span>
-
-    </div>
-
-
-
-    <!-- SOUTH -->
-
-    <div class="region">
-
-        <span class="region-name">
-
-            South
-
-        </span>
-
-
-        <span
-            id="south"
-            class="region-value">
-
-            --
-
-        </span>
-
-    </div>
-
-
-
-    <!-- UPDATED -->
-
-    <div class="info">
-
-
-        <div
-            id="updated"
-            class="updated">
-
-            Loading latest data...
-
-        </div>
-
-
-        <div class="source">
-
-            Source:
-
-            <a
-                href="https://www.haze.gov.sg/"
-                target="_blank"
-                rel="noopener noreferrer">
-
-                haze.gov.sg
-
-            </a>
-
-        </div>
-
+        Loading...
 
     </div>
 
@@ -636,9 +973,9 @@ body {
 
 <script>
 
-/* =====================================================
+/* =========================================
    LOAD PM2.5 DATA
-   ===================================================== */
+   ========================================= */
 
 async function loadPM25() {
 
@@ -651,18 +988,14 @@ async function loadPM25() {
 
 
         const response =
-            await fetch(API_URL, {
+            await fetch(
+                API_URL,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
 
-                method: "GET",
-
-                cache: "no-store"
-
-            });
-
-
-        /* =========================
-           CHECK RESPONSE
-           ========================= */
 
         if (!response.ok) {
 
@@ -673,10 +1006,6 @@ async function loadPM25() {
 
         }
 
-
-        /* =========================
-           GET DATA
-           ========================= */
 
         const result =
             await response.json();
@@ -691,9 +1020,16 @@ async function loadPM25() {
 
 
 
-        /* =========================
-           DISPLAY REGIONAL VALUES
-           ========================= */
+        /* =================================
+           DISPLAY REGIONS
+           ================================= */
+
+
+        document
+            .getElementById("west")
+            .textContent =
+            readings.west;
+
 
         document
             .getElementById("north")
@@ -705,12 +1041,6 @@ async function loadPM25() {
             .getElementById("east")
             .textContent =
             readings.east;
-
-
-        document
-            .getElementById("west")
-            .textContent =
-            readings.west;
 
 
         document
@@ -726,15 +1056,16 @@ async function loadPM25() {
 
 
 
-        /* =========================
-           FIND HIGHEST READING
-           ========================= */
+        /* =================================
+           FIND HIGHEST VALUE
+           ================================= */
+
 
         const values = [
 
+            readings.west,
             readings.north,
             readings.east,
-            readings.west,
             readings.central,
             readings.south
 
@@ -760,9 +1091,10 @@ async function loadPM25() {
 
 
 
-        /* =========================
-           MAIN VALUE
-           ========================= */
+        /* =================================
+           MAIN NUMBER
+           ================================= */
+
 
         const mainValue =
             document.getElementById(
@@ -780,9 +1112,10 @@ async function loadPM25() {
 
 
 
-        /* =========================
+        /* =================================
            STATUS
-           ========================= */
+           ================================= */
+
 
         const status =
             document.getElementById(
@@ -800,9 +1133,10 @@ async function loadPM25() {
 
 
 
-        /* =========================
+        /* =================================
            UPDATED TIME
-           ========================= */
+           ================================= */
+
 
         const date =
             new Date(
@@ -847,7 +1181,6 @@ async function loadPM25() {
 
     }
 
-
     catch (error) {
 
 
@@ -891,16 +1224,10 @@ async function loadPM25() {
 }
 
 
-/* =====================================================
-   STATUS RANGES
-   =====================================================
 
-   0–55       Normal
-   56–150     Elevated
-   151–250    High
-   251+       Very High
-
-   ===================================================== */
+/* =========================================
+   STATUS
+   ========================================= */
 
 function getStatus(value) {
 
@@ -931,9 +1258,10 @@ function getStatus(value) {
 }
 
 
-/* =====================================================
-   TEXT COLOUR
-   ===================================================== */
+
+/* =========================================
+   NUMBER COLOUR
+   ========================================= */
 
 function getColour(value) {
 
@@ -964,9 +1292,10 @@ function getColour(value) {
 }
 
 
-/* =====================================================
-   STATUS BACKGROUND COLOUR
-   ===================================================== */
+
+/* =========================================
+   STATUS BACKGROUND
+   ========================================= */
 
 function getBackground(value) {
 
@@ -997,16 +1326,18 @@ function getBackground(value) {
 }
 
 
-/* =====================================================
+
+/* =========================================
    INITIAL LOAD
-   ===================================================== */
+   ========================================= */
 
 loadPM25();
 
 
-/* =====================================================
+
+/* =========================================
    REFRESH EVERY 15 MINUTES
-   ===================================================== */
+   ========================================= */
 
 setInterval(
 
