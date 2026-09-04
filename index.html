@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,502 +8,625 @@
 <title>Singapore Air Quality</title>
 
 <style>
+
+/* =========================
+   GENERAL
+   ========================= */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     font-family: Arial, Helvetica, sans-serif;
     background: transparent;
     color: #444;
 }
 
-.pm25-box {
+.container {
     width: 100%;
-    max-width: 500px;
+    max-width: 950px;
     margin: 0 auto;
 }
 
-.pm25-card {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-}
 
-.pm25-title {
+/* =========================
+   MAIN AREA
+   ========================= */
+
+.title {
     text-align: center;
     font-size: 28px;
     font-weight: 700;
+    color: #111;
     margin-bottom: 5px;
 }
 
-.pm25-subtitle {
+.subtitle {
     text-align: center;
-    color: #777;
+    color: #222;
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-.pm25-main {
+
+/* =========================
+   MAIN PM2.5 VALUE
+   ========================= */
+
+.main-value {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-.pm25-value {
-    font-size: 60px;
+.value {
+    font-size: 52px;
     font-weight: bold;
     line-height: 1;
 }
 
-.pm25-unit {
-    font-size: 15px;
+.unit {
+    font-size: 14px;
     color: #777;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 
-.pm25-status {
+.status {
     display: inline-block;
-    padding: 7px 18px;
+    padding: 7px 20px;
     border-radius: 20px;
     color: white;
     font-weight: bold;
+    font-size: 16px;
     margin-top: 12px;
 }
 
-.pm25-regions {
+
+/* =========================
+   REGIONS
+   ========================= */
+
+.regions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.pm25-region {
+.region {
+    min-width: 0;
     padding: 12px;
     border-radius: 10px;
     background: #f5f5f5;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    font-size: 16px;
 }
 
-.pm25-region-name {
+.region-name {
     font-weight: 600;
+    white-space: nowrap;
 }
 
-.pm25-region-value {
+.region-value {
     font-weight: bold;
     font-size: 18px;
+    margin-left: 10px;
 }
 
-/* CENTRAL AIS */
 
-.pm25-central {
+/* =========================
+   CENTRAL AIS
+   ========================= */
+
+.region.central {
     background: #dbe442;
     color: #000000;
 }
 
-/* STATUS COLOURS */
 
-.pm25-green {
+/* =========================
+   UPDATED TIME
+   ========================= */
+
+.updated {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 12px;
+    color: #888;
+}
+
+
+/* =========================
+   ERROR
+   ========================= */
+
+.error {
+    color: #c62828;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+/* =========================
+   PM2.5 COLOURS
+   ========================= */
+
+/* Normal: 0–55 */
+
+.green {
     color: #43a047;
 }
 
-.pm25-yellow {
-    color: #fdd835;
-}
-
-.pm25-orange {
-    color: #ef6c00;
-}
-
-.pm25-red {
-    color: #c62828;
-}
-
-.pm25-green-bg {
+.green-bg {
     background: #43a047;
 }
 
-.pm25-yellow-bg {
-    background: #fdd835;
+
+/* Elevated: 56–150 */
+
+.yellow {
+    color: #fdd835;
 }
 
-.pm25-orange-bg {
+.yellow-bg {
+    background: #fdd835;
+    color: #000000;
+}
+
+
+/* High: 151–250 */
+
+.orange {
+    color: #ef6c00;
+}
+
+.orange-bg {
     background: #ef6c00;
 }
 
-.pm25-red-bg {
-    background: #c62828;
-}
 
-.pm25-updated {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 12px;
-    color: #888;
-}
+/* Very High: 251+ */
 
-.pm25-error {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 12px;
+.red {
     color: #c62828;
 }
 
-.pm25-source {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 11px;
-    color: #888;
+.red-bg {
+    background: #c62828;
 }
 
-.pm25-source a {
-    color: #888;
-    text-decoration: underline;
-}
 
-@media (max-width: 600px) {
+/* =========================
+   MOBILE
+   ========================= */
 
-    body {
-        padding: 10px;
+@media (max-width: 700px) {
+
+    .regions {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
 
-    .pm25-card {
-        padding: 20px;
+    .region.central {
+        grid-column: span 2;
     }
 
-    .pm25-title {
+    .title {
         font-size: 24px;
     }
 
-    .pm25-value {
-        font-size: 50px;
+    .value {
+        font-size: 48px;
     }
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="pm25-box">
+<div class="container">
 
-    <div class="pm25-card">
 
-        <div class="pm25-title">
-            Singapore Air Quality
+    <!-- TITLE -->
+
+    <div class="title">
+        Singapore Air Quality
+    </div>
+
+
+    <!-- SUBTITLE -->
+
+    <div class="subtitle">
+        PM2.5 Reading - Updated Every 15 Minutes
+    </div>
+
+
+    <!-- MAIN VALUE -->
+
+    <div class="main-value">
+
+        <div id="mainValue" class="value yellow">
+            --
         </div>
 
-        <div class="pm25-subtitle">
-            PM2.5 Reading - Updated Every 15 Minutes
+        <div class="unit">
+            µg/m³
         </div>
 
-        <div class="pm25-main">
-
-            <div id="pm25-main-value" class="pm25-value">
-                --
-            </div>
-
-            <div class="pm25-unit">
-                µg/m³
-            </div>
-
-            <div id="pm25-status" class="pm25-status pm25-green-bg">
-                Loading...
-            </div>
-
-        </div>
-
-        <div class="pm25-regions">
-
-            <div class="pm25-region">
-                <span class="pm25-region-name">North</span>
-                <span id="pm25-north" class="pm25-region-value">--</span>
-            </div>
-
-            <div class="pm25-region pm25-central">
-                <span class="pm25-region-name">Central (AIS)</span>
-                <span id="pm25-central" class="pm25-region-value">--</span>
-            </div>
-
-            <div class="pm25-region">
-                <span class="pm25-region-name">East</span>
-                <span id="pm25-east" class="pm25-region-value">--</span>
-            </div>
-
-            <div class="pm25-region">
-                <span class="pm25-region-name">South</span>
-                <span id="pm25-south" class="pm25-region-value">--</span>
-            </div>
-
-            <div class="pm25-region">
-                <span class="pm25-region-name">West</span>
-                <span id="pm25-west" class="pm25-region-value">--</span>
-            </div>
-
-        </div>
-
-        <div id="pm25-updated" class="pm25-updated">
-            Loading latest data...
-        </div>
-
-        <div id="pm25-error" class="pm25-error"></div>
-
-        <div class="pm25-source">
-            Source:
-            <a href="https://www.haze.gov.sg/"
-               target="_blank"
-               rel="noopener noreferrer">
-                haze.gov.sg
-            </a>
+        <div id="status" class="status yellow-bg">
+            Loading...
         </div>
 
     </div>
+
+
+    <!-- REGIONAL READINGS -->
+
+    <div class="regions">
+
+
+        <!-- NORTH -->
+
+        <div class="region">
+
+            <span class="region-name">
+                North
+            </span>
+
+            <span id="north" class="region-value">
+                --
+            </span>
+
+        </div>
+
+
+        <!-- EAST -->
+
+        <div class="region">
+
+            <span class="region-name">
+                East
+            </span>
+
+            <span id="east" class="region-value">
+                --
+            </span>
+
+        </div>
+
+
+        <!-- WEST -->
+
+        <div class="region">
+
+            <span class="region-name">
+                West
+            </span>
+
+            <span id="west" class="region-value">
+                --
+            </span>
+
+        </div>
+
+
+        <!-- CENTRAL -->
+
+        <div class="region central">
+
+            <span class="region-name">
+                Central (AIS)
+            </span>
+
+            <span id="central" class="region-value">
+                --
+            </span>
+
+        </div>
+
+
+        <!-- SOUTH -->
+
+        <div class="region">
+
+            <span class="region-name">
+                South
+            </span>
+
+            <span id="south" class="region-value">
+                --
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- UPDATED -->
+
+    <div id="updated" class="updated">
+        Loading latest data...
+    </div>
+
 
 </div>
 
 
 <script>
 
-(function () {
+/* =========================
+   API
+   ========================= */
 
-    var API_URL =
+async function loadPM25() {
+
+    const API_URL =
         "https://api-open.data.gov.sg/v2/real-time/api/pm25";
 
+    try {
 
-    function getStatus(value) {
+        const response = await fetch(API_URL, {
+            method: "GET",
+            cache: "no-store"
+        });
 
-        if (value <= 55) {
-            return "Normal";
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
+
         }
 
-        if (value <= 150) {
-            return "Elevated";
+
+        const result = await response.json();
+
+
+        const item =
+            result.data.items[0];
+
+
+        const readings =
+            item.readings.pm25_one_hourly;
+
+
+        /* =========================
+           REGIONAL VALUES
+           ========================= */
+
+        document.getElementById("north").textContent =
+            readings.north;
+
+        document.getElementById("east").textContent =
+            readings.east;
+
+        document.getElementById("west").textContent =
+            readings.west;
+
+        document.getElementById("central").textContent =
+            readings.central;
+
+        document.getElementById("south").textContent =
+            readings.south;
+
+
+        /* =========================
+           FIND HIGHEST VALUE
+           ========================= */
+
+        const values = [
+
+            readings.north,
+            readings.east,
+            readings.west,
+            readings.central,
+            readings.south
+
+        ].filter(
+            value => typeof value === "number"
+        );
+
+
+        if (values.length === 0) {
+
+            throw new Error(
+                "No PM2.5 readings available."
+            );
+
         }
 
-        if (value <= 250) {
-            return "High";
-        }
 
-        return "Very High";
-    }
+        const highest =
+            Math.max(...values);
 
 
-    function getTextClass(value) {
+        /* =========================
+           MAIN VALUE
+           ========================= */
 
-        if (value <= 55) {
-            return "pm25-green";
-        }
+        const mainValue =
+            document.getElementById("mainValue");
 
-        if (value <= 150) {
-            return "pm25-yellow";
-        }
 
-        if (value <= 250) {
-            return "pm25-orange";
-        }
+        mainValue.textContent =
+            highest;
 
-        return "pm25-red";
-    }
 
+        mainValue.className =
+            "value " + getColour(highest);
 
-    function getBackgroundClass(value) {
 
-        if (value <= 55) {
-            return "pm25-green-bg";
-        }
+        /* =========================
+           STATUS
+           ========================= */
 
-        if (value <= 150) {
-            return "pm25-yellow-bg";
-        }
+        const status =
+            document.getElementById("status");
 
-        if (value <= 250) {
-            return "pm25-orange-bg";
-        }
 
-        return "pm25-red-bg";
-    }
+        status.textContent =
+            getStatus(highest);
 
 
-    function loadPM25() {
+        status.className =
+            "status " + getBackground(highest);
 
-        var errorBox =
-            document.getElementById("pm25-error");
 
-        errorBox.textContent = "";
+        /* =========================
+           UPDATED TIME
+           ========================= */
 
+        const date =
+            new Date(item.updatedTimestamp);
 
-        fetch(API_URL)
 
-            .then(function(response) {
+        document.getElementById("updated").textContent =
+            "Updated: " +
+            date.toLocaleString("en-SG", {
 
-                if (!response.ok) {
-                    throw new Error(
-                        "HTTP " + response.status
-                    );
-                }
+                timeZone: "Asia/Singapore",
 
-                return response.json();
+                dateStyle: "medium",
 
-            })
-
-            .then(function(result) {
-
-                console.log("API RESULT:", result);
-
-
-                var item =
-                    result.data.items[0];
-
-
-                var readings =
-                    item.readings.pm25_one_hourly;
-
-
-                /* REGIONS */
-
-                document.getElementById("pm25-north")
-                    .textContent = readings.north;
-
-                document.getElementById("pm25-central")
-                    .textContent = readings.central;
-
-                document.getElementById("pm25-east")
-                    .textContent = readings.east;
-
-                document.getElementById("pm25-south")
-                    .textContent = readings.south;
-
-                document.getElementById("pm25-west")
-                    .textContent = readings.west;
-
-
-                /* NUMBERS */
-
-                var values = [
-                    Number(readings.north),
-                    Number(readings.central),
-                    Number(readings.east),
-                    Number(readings.south),
-                    Number(readings.west)
-                ].filter(function(value) {
-
-                    return !isNaN(value);
-
-                });
-
-
-                if (values.length === 0) {
-                    throw new Error(
-                        "No readings available"
-                    );
-                }
-
-
-                /* HIGHEST */
-
-                var highest =
-                    Math.max.apply(null, values);
-
-
-                /* MAIN VALUE */
-
-                var main =
-                    document.getElementById(
-                        "pm25-main-value"
-                    );
-
-                main.textContent = highest;
-
-                main.className =
-                    "pm25-value " +
-                    getTextClass(highest);
-
-
-                /* STATUS */
-
-                var status =
-                    document.getElementById(
-                        "pm25-status"
-                    );
-
-                status.textContent =
-                    getStatus(highest);
-
-                status.className =
-                    "pm25-status " +
-                    getBackgroundClass(highest);
-
-
-                /* UPDATED */
-
-                var date =
-                    new Date(
-                        item.updatedTimestamp
-                    );
-
-                document.getElementById(
-                    "pm25-updated"
-                ).textContent =
-                    "Updated: " +
-                    date.toLocaleString(
-                        "en-SG",
-                        {
-                            timeZone: "Asia/Singapore",
-                            dateStyle: "medium",
-                            timeStyle: "short"
-                        }
-                    );
-
-            })
-
-            .catch(function(error) {
-
-                console.error(
-                    "PM2.5 ERROR:",
-                    error
-                );
-
-
-                document.getElementById(
-                    "pm25-status"
-                ).textContent =
-                    "Unable to load data";
-
-
-                document.getElementById(
-                    "pm25-status"
-                ).className =
-                    "pm25-status pm25-red-bg";
-
-
-                document.getElementById(
-                    "pm25-updated"
-                ).textContent =
-                    "Please try again later.";
-
-
-                document.getElementById(
-                    "pm25-error"
-                ).textContent =
-                    "Error: " + error.message;
+                timeStyle: "short"
 
             });
 
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load PM2.5:",
+            error
+        );
+
+
+        document.getElementById("mainValue")
+            .textContent = "--";
+
+
+        document.getElementById("mainValue")
+            .className = "value red";
+
+
+        document.getElementById("status")
+            .textContent =
+            "Unable to load data";
+
+
+        document.getElementById("status")
+            .className =
+            "status red-bg";
+
+
+        document.getElementById("updated")
+            .textContent =
+            "Please try again later.";
+
     }
 
+}
 
-    loadPM25();
+
+/* =========================
+   STATUS RANGES
+   =========================
+
+   0–55     = Normal
+   56–150   = Elevated
+   151–250  = High
+   251+     = Very High
+
+   ========================= */
+
+function getStatus(value) {
+
+    if (value <= 55) {
+        return "Normal";
+    }
+
+    if (value <= 150) {
+        return "Elevated";
+    }
+
+    if (value <= 250) {
+        return "High";
+    }
+
+    return "Very High";
+}
 
 
-    setInterval(
-        loadPM25,
-        15 * 60 * 1000
-    );
+/* =========================
+   TEXT COLOUR
+   ========================= */
 
-})();
+function getColour(value) {
+
+    if (value <= 55) {
+        return "green";
+    }
+
+    if (value <= 150) {
+        return "yellow";
+    }
+
+    if (value <= 250) {
+        return "orange";
+    }
+
+    return "red";
+}
+
+
+/* =========================
+   STATUS BACKGROUND
+   ========================= */
+
+function getBackground(value) {
+
+    if (value <= 55) {
+        return "green-bg";
+    }
+
+    if (value <= 150) {
+        return "yellow-bg";
+    }
+
+    if (value <= 250) {
+        return "orange-bg";
+    }
+
+    return "red-bg";
+}
+
+
+/* =========================
+   INITIAL LOAD
+   ========================= */
+
+loadPM25();
+
+
+/* =========================
+   REFRESH EVERY 15 MINUTES
+   ========================= */
+
+setInterval(
+    loadPM25,
+    15 * 60 * 1000
+);
 
 </script>
 
