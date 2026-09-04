@@ -1,1 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Singapore Air Quality</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: transparent;
+    color: #444;
+}
+
+.pm25-box {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.pm25-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.pm25-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.pm25-subtitle {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.pm25-main {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pm25-value {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.pm25-unit {
+    font-size: 15px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.pm25-status {
+    display: inline-block;
+    padding: 7px 18px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.pm25-regions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pm25-region {
+    padding: 12px;
+    border-radius: 10px;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pm25-region-name {
+    font-weight: 600;
+}
+
+.pm25-region-value {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Central AIS */
+.pm25-central {
+    background: #dbe442;
+    color: #000000;
+}
+
+/* Text colours */
+
+.pm25-green {
+    color: #43a047;
+}
+
+.pm25-yellow {
+    color: #fdd835;
+}
+
+.pm25-orange {
+    color: #ef6c00;
+}
+
+.pm25-red {
+    color: #c62828;
+}
+
+/* Status background colours */
+
+.pm25-green-bg {
+    background: #43a047;
+}
+
+.pm25-yellow-bg {
+    background: #fdd835;
+}
+
+.pm25-orange-bg {
+    background: #ef6c00;
+}
+
+.pm25-red-bg {
+    background: #c62828;
+}
+
+.pm25-updated {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #888;
+}
+
+.pm25-source {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 11px;
+    color: #888;
+}
+
+.pm25-source a {
+    color: #888;
+    text-decoration: underline;
+}
+
+/* Error message */
+
+.pm25-error {
+    color: #c62828;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .pm25-card {
+        padding: 20px;
+    }
+
+    .pm25-title {
+        font-size: 24px;
+    }
+
+    .pm25-value {
+        font-size: 50px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="pm25-box">
+
+    <div class="pm25-card">
+
+        <div class="pm25-title">
+            Singapore Air Quality
+        </div>
+
+        <div class="pm25-subtitle">
+            PM2.5 Reading - Updated Every 15 Minutes
+        </div>
+
+        <div class="pm25-main">
+
+            <div id="pm25-main-value" class="pm25-value">
+                --
+            </div>
+
+            <div class="pm25-unit">
+                µg/m³
+            </div>
+
+            <div id="pm25-status" class="pm25-status pm25-green-bg">
+                Loading...
+            </div>
+
+        </div>
+
+        <div class="pm25-regions">
+
+            <div class="pm25-region">
+                <span class="pm25-region-name">North</span>
+                <span id="pm25-north" class="pm25-region-value">--</span>
+            </div>
+
+            <div class="pm25-region pm25-central">
+                <span class="pm25-region-name">Central (AIS)</span>
+                <span id="pm25-central" class="pm25-region-value">--</span>
+            </div>
+
+            <div class="pm25-region">
+                <span class="pm25-region-name">East</span>
+                <span id="pm25-east" class="pm25-region-value">--</span>
+            </div>
+
+            <div class="pm25-region">
+                <span class="pm25-region-name">South</span>
+                <span id="pm25-south" class="pm25-region-value">--</span>
+            </div>
+
+            <div class="pm25-region">
+                <span class="pm25-region-name">West</span>
+                <span id="pm25-west" class="pm25-region-value">--</span>
+            </div>
+
+        </div>
+
+        <div id="pm25-updated" class="pm25-updated">
+            Loading latest data...
+        </div>
+
+        <div id="pm25-error" class="pm25-error"></div>
+
+        <div class="pm25-source">
+            Source:
+            <a
+                href="https://www.haze.gov.sg/"
+                target="_blank"
+                rel="noopener noreferrer">
+                haze.gov.sg
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+(function () {
+
+    var API_URL =
+        "https://api-open.data.gov.sg/v2/real-time/api/pm25";
+
+
+    /*
+     * Determine PM2.5 status
+     */
+
+    function getStatus(value) {
+
+        if (value <= 55) {
+            return "Normal";
+        }
+
+        if (value <= 150) {
+            return "Elevated";
+        }
+
+        if (value <= 250) {
+            return "High";
+        }
+
+        return "Very High";
+    }
+
+
+    /*
+     * Determine text colour
+     */
+
+    function getTextClass(value) {
+
+        if (value <= 55) {
+            return "pm25-green";
+        }
+
+        if (value <= 150) {
+            return "pm25-yellow";
+        }
+
+        if (value <= 250) {
+            return "pm25-orange";
+        }
+
+        return "pm25-red";
+    }
+
+
+    /*
+     * Determine status background
+     */
+
+    function getBackgroundClass(value) {
+
+        if (value <= 55) {
+            return "pm25-green-bg";
+        }
+
+        if (value <= 150) {
+            return "pm25-yellow-bg";
+        }
+
+        if (value <= 250) {
+            return "pm25-orange-bg";
+        }
+
+        return "pm25-red-bg";
+    }
+
+
+    /*
+     * Load PM2.5 data
+     */
+
+    function loadPM25() {
+
+        var errorBox =
+            document.getElementById("pm25-error");
+
+        errorBox.textContent = "";
+
+
+        fetch(API_URL, {
+            method: "GET",
+            cache: "no-store"
+        })
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP Error: " + response.status
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (result) {
+
+            console.log("PM2.5 API response:", result);
+
+
+            /*
+             * Get latest item
+             */
+
+            var item =
+                result.data.items[0];
+
+
+            /*
+             * Get regional readings
+             */
+
+            var readings =
+                item.readings.pm25_one_hourly;
+
+
+            /*
+             * Display regional values
+             */
+
+            document.getElementById("pm25-north").textContent =
+                readings.north;
+
+            document.getElementById("pm25-central").textContent =
+                readings.central;
+
+            document.getElementById("pm25-east").textContent =
+                readings.east;
+
+            document.getElementById("pm25-south").textContent =
+                readings.south;
+
+            document.getElementById("pm25-west").textContent =
+                readings.west;
+
+
+            /*
+             * Convert readings to numbers
+             */
+
+            var values = [
+
+                Number(readings.north),
+                Number(readings.central),
+                Number(readings.east),
+                Number(readings.south),
+                Number(readings.west)
+
+            ].filter(function (value) {
+
+                return !isNaN(value);
+
+            });
+
+
+            /*
+             * Check if readings exist
+             */
+
+            if (values.length === 0) {
+
+                throw new Error(
+                    "No PM2.5 readings available."
+                );
+
+            }
+
+
+            /*
+             * Find highest reading
+             */
+
+            var highest =
+                Math.max.apply(null, values);
+
+
+            /*
+             * Main value
+             */
+
+            var mainValue =
+                document.getElementById(
+                    "pm25-main-value"
+                );
+
+
+            mainValue.textContent =
+                highest;
+
+
+            mainValue.className =
+                "pm25-value " +
+                getTextClass(highest);
+
+
+            /*
+             * Status
+             */
+
+            var status =
+                document.getElementById(
+                    "pm25-status"
+                );
+
+
+            status.textContent =
+                getStatus(highest);
+
+
+            status.className =
+                "pm25-status " +
+                getBackgroundClass(highest);
+
+
+            /*
+             * Updated timestamp
+             */
+
+            var date =
+                new Date(item.updatedTimestamp);
+
+
+            document.getElementById(
+                "pm25-updated"
+            ).textContent =
+                "Updated: " +
+                date.toLocaleString(
+                    "en-SG",
+                    {
+                        timeZone: "Asia/Singapore",
+                        dateStyle: "medium",
+                        timeStyle: "short"
+                    }
+                );
+
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Unable to load PM2.5:",
+                error
+            );
+
+
+            document.getElementById(
+                "pm25-main-value"
+            ).textContent = "--";
+
+
+            document.getElementById(
+                "pm25-status"
+            ).textContent =
+                "Unable to load data";
+
+
+            document.getElementById(
+                "pm25-status"
+            ).className =
+                "pm25-status pm25-red-bg";
+
+
+            document.getElementById(
+                "pm25-updated"
+            ).textContent =
+                "Please try again later.";
+
+
+            document.getElementById(
+                "pm25-error"
+            ).textContent =
+                "API error: " + error.message;
+
+        });
+
+    }
+
+
+    /*
+     * Load immediately
+     */
+
+    loadPM25();
+
+
+    /*
+     * Refresh every 15 minutes
+     */
+
+    setInterval(
+        loadPM25,
+        15 * 60 * 1000
+    );
+
+})();
+
+</script>
+
+</body>
+</html>
